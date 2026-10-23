@@ -15,5 +15,5 @@ labels: bug
 **Log**
 <!-- Attach MelonLoader\Latest.log (drag the file in here). Without it we can only guess. -->
 
-**Does F3 show a "not available yet" checklist?**
+**Does the panel show a "not ready" checklist?**
 <!-- If yes, paste what it says. -->

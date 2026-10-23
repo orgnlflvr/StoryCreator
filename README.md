@@ -11,7 +11,7 @@ Write your own stories for **!Ω Factorial Omega: My Dystopian Robot Girlfriend*
 
 | | Version |
 | --- | --- |
-| Story Creator | 1.0.0 |
+| Story Creator | 1.0.1 |
 | Game | 0.97.12 |
 | MelonLoader | **0.7.3** (stable) |
 | OS | Windows |
@@ -36,7 +36,7 @@ No AI server is needed. Stories can be played once your save is past the prologu
 1. Make a copy of your game folder. Work only in the copy.
 2. Run the [MelonLoader](https://github.com/LavaGang/MelonLoader) installer, pick the game's `.exe` from the copy, choose **0.7.3**, and install.
 3. Start the game once and let MelonLoader finish setting up. Close it at the menu.
-4. Download `StoryCreator_1.0.0.zip` from [Releases](../../releases) and copy its `Mods` and `UserData` folders into the game folder.
+4. Download `StoryCreator_1.0.1.zip` from [Releases](../../releases) and copy its `Mods` and `UserData` folders into the game folder.
 5. Start the game, load a save and press **F3**.
 
 > [!NOTE]
@@ -112,6 +112,8 @@ Or by hand: `dotnet build -c Release -p:Mod=Story -p:GameDir="C:\path\to\game"`.
 ## Configuration
 
 Everything is on the settings page (F9 or `http://127.0.0.1:8766/settings`) and saved in `UserData\StoryCreator.cfg`: story key, music, choice buttons, character size and spread, background fade, and the web port.
+
+**Update notice** *(new in 1.0.1)*: when the game starts, Story Creator asks GitHub once whether a newer version is out and tells you in the log and on its pages. It never downloads or installs anything by itself. Turn it off with Panel > CheckUpdates.
 
 ## Reporting problems
 
