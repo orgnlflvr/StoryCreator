@@ -86,6 +86,37 @@ def main():
         t.image.convert("RGB").save(path)
         done.add(k)
         print("saved", path, "%dx%d" % (t.m_Width, t.m_Height))
+    # the clinic photo for "@background hospital" is not in resources.assets; look for it in the scene files too
+    if not a.list and a.out and "hos" not in done:
+        for f in sorted(glob.glob(os.path.join(a.data, "sharedassets*.assets")) + glob.glob(os.path.join(a.data, "level*"))):
+            if f.endswith(".resS") or f.endswith(".resource"):
+                continue
+            try:
+                e2 = UnityPy.load(f)
+            except Exception:
+                continue
+            for o in e2.objects:
+                if o.type.name != "Texture2D":
+                    continue
+                try:
+                    t = o.read()
+                except Exception:
+                    continue
+                if key(t.m_Name) != "hos" or t.m_Width < 600:
+                    continue
+                try:
+                    os.makedirs(a.out, exist_ok=True)
+                    path = os.path.join(a.out, "hos.png")
+                    t.image.convert("RGB").save(path)
+                    done.add("hos")
+                    print("saved", path, "%dx%d  (the clinic, used by @background hospital)" % (t.m_Width, t.m_Height))
+                except Exception as ex:
+                    print("found the clinic picture in", os.path.basename(f), "but could not save it:", ex)
+                break
+            if "hos" in done:
+                break
+        if "hos" not in done:
+            print("the clinic picture (for @background hospital) was not found in the game files; get it once with F7 in the game's own clinic scene")
     if not a.list:
         for k, n in want.items():
             if k not in done:
@@ -94,7 +125,7 @@ def main():
             with open(os.path.join(a.out, "BACKGROUNDS.txt"), "w", encoding="utf-8") as f:
                 f.write("Pictures saved from the game. Use them in a story as  @background <name>\n\n")
                 for k in sorted(done):
-                    f.write("@background %s\n" % k)
+                    f.write("@background %s\n" % ("hospital" if k == "hos" else k))
             print("\n%d pictures saved. The list is in %s" % (len(done), os.path.join(a.out, "BACKGROUNDS.txt")))
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ Write your own stories for **!Ω Factorial Omega: My Dystopian Robot Girlfriend*
 
 | | Version |
 | --- | --- |
-| Story Creator | 1.0.1 |
+| Story Creator | 1.1.0 |
 | Game | 0.97.12 |
 | MelonLoader | **0.7.3** (stable) |
 | OS | Windows |
@@ -26,6 +26,7 @@ Write your own stories for **!Ω Factorial Omega: My Dystopian Robot Girlfriend*
 - **Places and music.** The game's backgrounds and soundtrack, plus your own pictures if you want.
 - **Choices and endings.** Branch your story with choice buttons and as many endings as you like.
 - **Minigames in stories.** Use the game's own timing bar: bowling matches, repairs, rescues. Scores can decide the ending.
+- **Write it with an AI** *(new in 1.1)*. Type an idea and press **Copy prompt**: it copies a prompt with the whole story format, the characters, backgrounds, music and minigames. Paste it into any chat AI (DeepSeek, ChatGPT, your own model), paste the answer back, press **Clean up AI text** and the checker shows what is left to fix. Works with any AI, nothing is sent anywhere by the mod.
 - **Stage page.** Place characters with the mouse and copy the lines into your story.
 - **Story packs.** Share stories as one `.storypack` file.
 
@@ -36,7 +37,7 @@ No AI server is needed. Stories can be played once your save is past the prologu
 1. Make a copy of your game folder. Work only in the copy.
 2. Run the [MelonLoader](https://github.com/LavaGang/MelonLoader) installer, pick the game's `.exe` from the copy, choose **0.7.3**, and install.
 3. Start the game once and let MelonLoader finish setting up. Close it at the menu.
-4. Download `StoryCreator_1.0.1.zip` from [Releases](../../releases) and copy its `Mods` and `UserData` folders into the game folder.
+4. Download `StoryCreator_1.1.0.zip` from [Releases](../../releases) and copy its `Mods` and `UserData` folders into the game folder.
 5. Start the game, load a save and press **F3**.
 
 > [!NOTE]
@@ -92,6 +93,11 @@ Some example stories use the game's own places (bowling alley, night cafe). With
 pip install UnityPy
 python "UserData\StoryCreator\tools\export_backgrounds.py"
 ```
+
+Two of the built-in backgrounds look black at first, on purpose or until the game has loaded them:
+
+- `@background flashback` is the game's memory stage: a **black** background where only the characters show, like the game's own flashbacks.
+- `@background hospital` needs the clinic picture once. The script above tries to save it as `hos.png`; if it says it could not find it, play to the game's own clinic scene and press **F7** while the green clinic photo is on screen. After that it always works.
 
 > [!CAUTION]
 > The exported pictures belong to the game. Keep them on your PC. Never upload them, put them in a story pack, or open a pull request with them.

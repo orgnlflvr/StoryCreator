@@ -56,9 +56,21 @@ a{color:var(--acc)}
 </div>
 
 <div class='card'>
+  <div id='aicard' style='border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:10px'>
+  <h2>Write it with an AI</h2>
+  <div class='mut'>Use any chat AI you like (DeepSeek, ChatGPT, Claude, your own model...). Type your idea, press <b>Copy prompt</b>, paste it into the AI, then paste its answer into the editor above and press <b>Clean up AI text</b>. The prompt explains the story format, the characters, backgrounds, music and minigames, so the AI knows what it can use.</div>
+  <textarea id='aiidea' style='flex:none;min-height:80px;height:80px;margin-top:8px;white-space:pre-wrap;font:inherit' placeholder='Your idea, e.g. "Jun and {player} go bowling, she is very competitive and hates losing to Annalie"'></textarea>
+  <div class='row' style='flex-wrap:wrap;gap:6px;margin-top:6px'>
+    <select id='ailen'><option value='3 to 5'>short (3-5 scenes)</option><option value='6 to 10' selected>medium (6-10 scenes)</option><option value='10 to 16'>long (10-16 scenes)</option></select>
+    <label class='mut'><input type='checkbox' id='aimg'> with a minigame</label>
+    <label class='mut'><input type='checkbox' id='aicast' checked> other characters may appear</label>
+    <button class='p' id='aicopy'>Copy prompt</button><button id='aiclean'>Clean up AI text</button>
+  </div>
+  <textarea id='aiout' readonly style='display:none;flex:none;min-height:120px;height:120px;margin-top:8px'></textarea>
+</div>
   <h2>How to write a story</h2>
   <div class='mut'>A story is a list of <b>scenes</b>. Each scene has lines, then either choices or a jump to another scene.</div>
-<div class='mut'><b>Characters:</b> <code>@show Annalie left</code> puts her on screen (left, center, right, or a number: -1 is left, 0 the middle, 1 right, so <code>@show Annalie -0.5</code> is halfway to the left), <code>@move Annalie 0.3</code> slides her to a new spot without showing her again, <code>@move Annalie 0.3 -0.5</code> (the last number is height, negative is lower), <code>@slide Melissa -1.6 9</code> glides her there over 9 seconds (the story keeps going while she moves) and <code>@stop Melissa</code> freezes her where she is, <code>@size Annalie 0.8</code> makes her smaller or bigger (1 = the game's size; you can also put it last on a show line, <code>@show Annalie 0.1 0.8</code>), <code>@hide Annalie</code> or <code>@hide all</code> removes her. Faces: write them as tags on her lines, <code>Annalie [sad]: ...</code>, or change them with <code>@face Annalie pervygrin</code>. Annalie's faces are normal, eyeclosed (happy), sad, shocked, pervygrin. Outfits: <code>@outfit Annalie Halloween_Outfit</code> or <code>@outfit Annalie default</code>. Backgrounds: <code>@background clothier</code> fades to black, switches to that place, and fades back (room, outside, shop, clothier, shower, pc, cuddle, changingroom, hospital, flashback). <code>@jun -1.1 1.4</code> sets her size too (the second number, 1 = her room size), <code>@jun left</code> puts Jun on screen in the outside, shop and clothier backgrounds (left, center, right, a number like <code>@jun -1.4</code>, or hide); in the room she is always there. When the story ends it returns to where you were. <b>Music:</b> <code>@music Rainy Day</code> plays one of the game's own tracks (the name is matched loosely against the game's track names, e.g. Fishing_Rainy_Day, Cuddle_If_Only, BadEnd_A_Soft_Decay), <code>@music Cuddle</code> plays a whole category and the game shuffles it, <code>@music stop</code> gives the game's own music back, <code>@music auto</code> goes back to the default for the background. Without any @music, each <code>@background</code> picks a fitting track by itself (outside: street music, shop: Cashier theme, clothier: Annalie theme, hospital and flashback: sad story tracks). The music is put back when the story ends. The full list of track names is written to the log ({{LOG}}) the first time a story plays music. Her lines are <code>Annalie: text</code>. These are a first version: press F7 in the game for the full list of IDs.</div>
+<div class='mut'><b>Characters:</b> <code>@show Annalie left</code> puts her on screen (left, center, right, or a number: -1 is left, 0 the middle, 1 right, so <code>@show Annalie -0.5</code> is halfway to the left), <code>@move Annalie 0.3</code> slides her to a new spot without showing her again, <code>@move Annalie 0.3 -0.5</code> (the last number is height, negative is lower), <code>@slide Melissa -1.6 9</code> glides her there over 9 seconds (the story keeps going while she moves) and <code>@stop Melissa</code> freezes her where she is, <code>@size Annalie 0.8</code> makes her smaller or bigger (1 = the game's size; you can also put it last on a show line, <code>@show Annalie 0.1 0.8</code>), <code>@hide Annalie</code> or <code>@hide all</code> removes her. Faces: write them as tags on her lines, <code>Annalie [sad]: ...</code>, or change them with <code>@face Annalie pervygrin</code>. Annalie's faces are normal, eyeclosed (happy), sad, shocked, pervygrin. Outfits: <code>@outfit Annalie Halloween_Outfit</code> or <code>@outfit Annalie default</code>. Backgrounds: <code>@background clothier</code> fades to black, switches to that place, and fades back (room, outside, shop, clothier, shower, pc, cuddle, changingroom, hospital, flashback). <b>flashback</b> is black on purpose: the game's memory stage, only characters show. <b>hospital</b> needs the clinic picture once: run <code>tools\export_backgrounds.py</code>, or press F7 while the game's own clinic scene is on screen; until then it is black.. <code>@jun -1.1 1.4</code> sets her size too (the second number, 1 = her room size), <code>@jun left</code> puts Jun on screen in the outside, shop and clothier backgrounds (left, center, right, a number like <code>@jun -1.4</code>, or hide); in the room she is always there. When the story ends it returns to where you were. <b>Music:</b> <code>@music Rainy Day</code> plays one of the game's own tracks (the name is matched loosely against the game's track names, e.g. Fishing_Rainy_Day, Cuddle_If_Only, BadEnd_A_Soft_Decay), <code>@music Cuddle</code> plays a whole category and the game shuffles it, <code>@music stop</code> gives the game's own music back, <code>@music auto</code> goes back to the default for the background. Without any @music, each <code>@background</code> picks a fitting track by itself (outside: street music, shop: Cashier theme, clothier: Annalie theme, hospital and flashback: sad story tracks). The music is put back when the story ends. The full list of track names is written to the log ({{LOG}}) the first time a story plays music. Her lines are <code>Annalie: text</code>. These are a first version: press F7 in the game for the full list of IDs.</div>
 <div class='mut'><b>Name colours:</b> the tag colour comes from the game (Annalie purple, Melissa green, the player is called <code>You</code>, and so on). For your own characters or to override one, add <code>color: Name = #rrggbb</code> near the top.</div>
 <pre>title: Rainy night
 // notes start with //
@@ -202,6 +214,83 @@ $('cline').onclick=()=>insert($('chr').value.replace(/_.*/,'')+' [happy]: ');
 $('tag').onchange=()=>{const v=$('tag').value;if(v){insert('['+v+']');$('tag').value='';}};
 $('ed').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const s=e.target.selectionStart;e.target.value=e.target.value.slice(0,s)+'  '+e.target.value.slice(e.target.selectionEnd);e.target.setSelectionRange(s+2,s+2);}
   if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();$('saveBtn').click();}});
+
+// ---- write it with an AI: one prompt with everything the AI needs, and a clean-up for what it sends back ----
+const JUN_VOICE="Jun is an android (a sexbot model) who lives with {player} in his tiny run-down apartment in a dystopian megacity. She started out cold and literal and became far more human living with him: curious, warm, sincere, a little stubborn and possessive, competitive. She talks in short, natural sentences; her android side is a light flavour (now and then sensors, calculations, an idiom taken literally, a deadpan technical fact), not every line. When she feels something real she gets flustered and stammers. She loves {player} but says it awkwardly.";
+function musicCats(){const s=new Set();[...$('musel').querySelectorAll('optgroup')].forEach(g=>s.add(g.label));return [...s];}
+function buildPrompt(){
+  const idea=$('aiidea').value.trim()||'Something sweet and a bit funny happens between Jun and {player} on an ordinary evening.';
+  const bgs=[...$('bgsel').options].map(o=>o.value).filter(Boolean);
+  const cats=musicCats();
+  const tracks=[...$('musel').querySelectorAll('option')].map(o=>o.value).filter(v=>v&&v.indexOf(' ')>0).slice(0,90);
+  const tags=[...$('tag').options].map(o=>o.value).filter(Boolean);
+  const cast=$('aicast').checked;
+  let p='';
+  p+='Write a story file for "Story Creator", a mod for the game My Dystopian Robot Girlfriend. The game plays it line by line in its own dialogue box.\n';
+  p+='Output ONLY the story file as plain text: no explanations before or after, no markdown, no code fences.\n\n';
+  p+='=== MY IDEA ===\n'+idea+'\nLength: '+$('ailen').value+' scenes, with at least one real choice for the player.'+($('aimg').checked?' Include one @minigame moment.':'')+(cast?'':' Only Jun and {player} appear (plus the Narrator).')+'\n\n';
+  p+='=== THE FORMAT (follow it exactly) ===\n';
+  p+='title: The title of the story          (first line)\n';
+  p+='// a note, ignored by the game\n';
+  p+='# scene_name                           starts a scene; the first scene is where the story starts. Names: lowercase letters, digits and _ only.\n';
+  p+='{bot} [happy]: text                    Jun speaks. {bot} = Jun, {player} = the player; always write these two exactly like that.\n';
+  p+='{player}: text                         the player speaks\n';
+  p+='Narrator: text                         narration, shown without a name\n';
+  p+='? Choice text -> scene_name            a choice button. Choices go together at the END of a scene.\n';
+  p+='-> scene_name                          jump to another scene;  -> end  finishes the story.\n';
+  p+='Every scene must end with choices, a jump, or -> end. Every scene you jump to must exist.\n';
+  p+='Tags in [ ] on Jun\'s lines set her face and gestures: '+tags.join(', ')+'. Combine them, e.g. {bot} [happy][wave]: Hi!\n';
+  p+='Commands go on their own line and start with @:\n';
+  p+='@background NAME      fade to a place: '+bgs.join(', ')+'\n';
+  p+='@jun left             Jun\'s place on screen outside the room (left, center, right, a number from -1.5 to 1.5, or hide). In the room she is always there.\n';
+  if(cast){
+    p+='@show NAME left       show another character (left, center, right, or a number from -1.5 to 1.5);  @hide NAME;  @hide all\n';
+    p+='Characters you can show: '+CHARS.join(', ')+'. Their lines: Annalie: text (use their plain name, e.g. Annalie, Landlord, Priestbot). Leave tags off other characters\' lines if you are not sure of their face names.\n';
+  }
+  if(cats.length){
+    p+='@music NAME           play the game\'s music: a category ('+cats.join(', ')+') or a track'+(tracks.length?', e.g. '+tracks.slice(0,40).join('; '):'')+'.  @music stop gives the game\'s own music back. Without @music, each background picks fitting music by itself.\n';
+  }
+  if($('aimg').checked){
+    p+='@minigame skillcheck 2 caught_it>=0.8 wobbly>=0.5 dropped_it     the game\'s timing bar. The number after "skillcheck" is the difficulty (0 easy to 6 hard); "work" instead of "skillcheck" is the work clicking game.\n';
+    p+='The words after the difficulty are SCENE NAMES that you must also write as scenes (# caught_it, # wobbly, # dropped_it): the story jumps to the first scene whose minimum the score (0 to 1) reaches, else to the last one (without >=). The @minigame line is the last line of its scene. Pick names that fit your story; do not copy the example names.\n';
+    p+='Or write just  @minigame skillcheck 2  with no scene names: then the scene simply goes on after the minigame.\n';
+    p+='In text after a minigame: {pins} = points for that throw (0-10), {score} = score in percent. For a match of several throws: @score reset first, then several @minigame lines without scenes, then  @total win>=17 tie>=16 lose  to jump by the total {total}.\n';
+  }
+  p+='\n=== JUN AND THE WORLD ===\n'+JUN_VOICE+'\n';
+  p+='Keep the game\'s tone: a gritty, corrupt city outside, small warm moments inside. Keep the game\'s characters as they are in the game. Lines are short (under 25 words) because they show in a small dialogue box; split longer speech into several lines.\n\n';
+  p+='=== A SMALL EXAMPLE OF THE FORMAT ===\n'+NEW.replace('title: My new story','title: Rainy Evening')+'\n=== NOW WRITE THE STORY ===\n';
+  return p;
+}
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
+  const ta=$('aiout'); ta.style.display=''; ta.value=t; ta.focus(); ta.select();
+  try{ return document.execCommand('copy'); }catch(e){ return false; }
+}
+$('aicopy').onclick=async()=>{
+  const p=buildPrompt();
+  const ok=await copyText(p);
+  $('aiout').value=p;
+  if(ok){ M.toast('Prompt copied. Paste it into your AI, then paste its answer into the editor.','ok',6000); show('Prompt copied ('+p.length+' characters). Paste the AI\'s answer into the editor and press Clean up AI text.','ok'); }
+  else { $('aiout').style.display=''; M.toast('Could not copy by itself: select the text below and copy it (Ctrl+C).','bad',6000); }
+};
+$('aiclean').onclick=async()=>{
+  let t=$('ed').value;
+  if(!t.trim()){ M.toast('Paste the AI\'s answer into the editor first.','bad'); return; }
+  t=t.replace(/\r/g,'');
+  const at=t.search(/^\s*title\s*:/mi); if(at>0) t=t.slice(at);                     // chatter before the story
+  t=t.split('\n').filter(l=>!/^\s*```/.test(l)).join('\n');                          // markdown fences
+  t=t.replace(/^\s*\*\*(.+?)\*\*\s*$/gm,'$1').replace(/^(\s*#)\s*#+\s*/gm,'$1 ');      // bold lines, "## scene"
+  t=t.replace(/^\s*(#\s*)([^\n]+)$/gm,(m,h,n)=>'# '+n.trim().toLowerCase().replace(/[^a-z0-9_]+/g,'_').replace(/^_+|_+$/g,''));  // scene names
+  t=t.replace(/->\s*([A-Za-z0-9 _-]+)\s*$/gm,(m,n)=>'-> '+(n.trim().toLowerCase()==='end'?'end':n.trim().toLowerCase().replace(/[^a-z0-9_]+/g,'_')));
+  t=t.replace(/\{(Jun|bot)\}/gi,'{bot}').replace(/\{(Anon|player|you)\}/gi,'{player}');
+  { const L=t.split('\n'); const story=l=>/^\s*(#|\?|->|@|\/\/|[^:\n]{1,40}:)/.test(l);            // chatter after the story
+    while(L.length && (!L[L.length-1].trim() || !story(L[L.length-1]))) L.pop(); t=L.join('\n'); }
+  t=t.replace(/\n{3,}/g,'\n\n').trim()+'\n';
+  $('ed').value=t;
+  if(!$('fid').value.trim()){ const m=t.match(/^\s*title\s*:\s*(.+)$/mi); if(m) $('fid').value=m[1].toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,40); }
+  report(await post('/api/story/check',{id:$('fid').value,text:t}),'Cleaned up and checked');
+  M.toast('Cleaned up. If the check lists problems, fix them or ask the AI to fix exactly those lines.','info',6000);
+};
 refresh();
 </script>
 <script src="/gameui.js"></script>
